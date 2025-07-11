@@ -860,6 +860,26 @@
 			$con->dbquery("update lab_samples set `status` = '4', updated_by = '$uid', updated_on = now() where so_no = '$_POST[bloodchem_sono]' and serialno = '$_POST[bloodchem_serialno]';");
 		break;
 
+		/* Special Chemistry */
+		case "saveSPChem":
+			list($cnt) = $con->getArray("select count(*) from lab_spchem where so_no = '$_POST[spchem_sono]' and branch = '$bid' and serialno = '$_POST[spchem_serialno]';");
+			if($cnt > 0) {
+				$con->dbquery("UPDATE IGNORE lab_spchem SET result_date = '".$con->formatDate($_POST['spchem_date']).", hba1c = '".$con->formatDigit($_POST['spchem_hba1c'])."', remarks = '".$con->escapeString(htmlentities($_POST['remarks']))."',updated_by = '$uid',updated_on = NOW() where so_no = '$_POST[spchem_sono]' and branch = '$uid' and serialno = '$_POST[spchem_serialno]';");
+			} else {
+				$con->dbquery("INSERT IGNORE INTO lab_spchem (so_no,branch,pid,pname,result_date,sampletype,serialno,hba1c,remarks,created_by,created_on) VALUES ('$_POST[spchem_sono]','$bid','$_POST[spchem_pid]','$_POST[spchem_pname]','".$con->formatDate($_POST['spchem_date'])."','$_POST[spchem_spectype]','$_POST[spchem_serialno]','".$con->formatDigit($_POST['spchem_hba1c'])."','".$con->escapeString(htmlentities($_POST['remarks']))."','$uid',NOW());");
+			}
+
+			/* Update Status of Lab Sample */
+			$con->dbquery("update lab_samples set `status` = '3', updated_by = '$uid', updated_on = now() where so_no = '$_POST[spchem_sono]' and serialno = '$_POST[spchem_serialno]';");
+		break;
+
+		case "validateSPChem":
+			$con->dbquery("UPDATE IGNORE lab_spchem SET result_date = '".$con->formatDate($_POST['spchem_date'])."', hba1c = '".$con->formatDigit($_POST['spchem_hba1c'])."', remarks = '".$con->escapeString(htmlentities($_POST['remarks']))."',updated_by = '$uid',updated_on = NOW() where so_no = '$_POST[spchem_sono]' and branch = '$uid' and serialno = '$_POST[spchem_serialno]';");
+			$con->validateResult("lab_spchem",$_POST['spchem_sono'],$_POST['spchem_code'],$_POST['spchem_serialno'],$bid,$uid);
+			$con->dbquery("update lab_samples set `status` = '4', updated_by = '$uid', updated_on = now() where so_no = '$_POST[spchem_sono]' and serialno = '$_POST[spchem_serialno]';");
+		break;
+		/* End Special Chemistry */
+
 		case "saveFT4Result":
 			list($cnt) = $con->getArray("select count(*) from lab_ft4 where so_no = '$_POST[ft4_sono]' and branch = '$bid' and serialno = '$_POST[ft4_serialno]';");
 			if($cnt > 0) {

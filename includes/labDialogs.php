@@ -3790,3 +3790,4 @@
 <div id="audiometryResult" name="audiometryResult" style="display: none;"></div>
 <div id="singleResults" name="singleResults" style="display: none;"></div>
 <div id="hepaResult" name="hepaResult" style="display: none;"></div>
+<div id="specialChemistryResult" name="specialChemistryResult" style="display: none;"></div>
