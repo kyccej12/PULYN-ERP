@@ -3580,9 +3580,11 @@ function writeResult(lid,code) {
 		case "L119":
 		case "L252":
 		case "L255":
-		case "L019":
 			bloodChem(lid,code);
 		break;
+		// case "L019":
+		// 	spchem(lid,code);
+		// break;
 		case "O117":
 			audioResult(lid,code);
 		break;
@@ -3709,9 +3711,11 @@ function validateResult(lid,code) {
 		case "L119":
 		case "L252":
 		case "L255":
-		case "L019":
 			validateBloodChem(lid,code);
 		break;
+		// case "L019":
+		// 	validateSPChem(lid,code);
+		// break;
 		case "O117":
 			validateAudioResult(lid,code);
 		break;
@@ -3846,9 +3850,11 @@ function printResult(code,so_no,serialno,lid) {
 			case "L119":
 			case "L252":
 			case "L255":
-			case "L019":
 				var txtHTML = "<iframe id='printResult' frameborder=0 width='100%' height='100%' src='print/result.bloodchem.php?so_no="+so_no+"&code="+code+"&serialno="+serialno+"&sid="+Math.random()+"&sid="+Math.random()+"'></iframe>";
 			break;
+			// case "L019":
+			// 	var txtHTML = "<iframe id='printResult' frameborder=0 width='100%' height='100%' src='print/result.spchem.php?so_no="+so_no+"&code="+code+"&serialno="+serialno+"&sid="+Math.random()+"&sid="+Math.random()+"'></iframe>";
+			// break;
 			case "O117":
 				var txtHTML = "<iframe id='printResult' frameborder=0 width='100%' height='100%' src='print/result.audiometry.php?so_no="+so_no+"&code="+code+"&serialno="+serialno+"&sid="+Math.random()+"&sid="+Math.random()+"'></iframe>";
 			break;
@@ -6523,6 +6529,126 @@ function validateBloodChem(lid,code) {
 					var txtHTML = "<iframe id='prntXrayResult' frameborder=0 width='100%' height='100%' src='print/result.bloodchem.php?so_no="+so_no+"&serialno="+serialno+"&sid="+Math.random()+"&sid="+Math.random()+"'></iframe>";
 					$("#report3").html(txtHTML);
 					$("#report3").dialog({title: "Print - BLOOD CHEMISTRY RESULT", width: 560, height: 620, resizable: true }).dialogExtend({
+						"closable" : true,
+						"maximizable" : true,
+						"minimizable" : true
+					});
+
+
+				 }
+			},
+			{
+				text: "Close",
+				icons: { primary: "ui-icon-closethick" },
+				click: function() { $(this).dialog("close"); }
+			}
+		]
+	});
+}
+
+function spchem(lid,code) {
+	
+	$("#specialChemistryResult").html("<iframe id='frmspchemResult' frameborder=0 width='100%' height='100%' src='result.spchem.php?lid="+lid+"'></iframe>");
+	
+	$("#specialChemistryResult").dialog({
+		title: "Write Result",
+		width: xWidth,
+		height: 680,
+		resizeable: false,
+		modal: true,
+		buttons: [
+			{
+				text: "Save Result Pending Validation",
+				icons: { primary: "ui-icon-check" },
+				click: function() {
+					var msg = '';
+
+					if(confirm("Are you sure you want save this result?") == true) {
+						var dataString = $('#frmspchemResult').contents().find('#frmspchemResult').serialize();
+						dataString = "mod=saveSPChem&" + dataString;
+						$.ajax({
+							type: "POST",
+							url: "src/sjerp.php",
+							data: dataString,
+							success: function() {
+								alert("Result Successfully Saved!");
+							}
+						});
+					}
+				}
+			},
+			{
+				text: "Print Result",
+				icons: { primary: "ui-icon-print" },
+				click: function() {
+					
+					var so_no = $('#frmspchemResult').contents().find('#spchem_sono').val();
+					var serialno = $('#frmspchemResult').contents().find('#spchem_serialno').val();
+
+					var txtHTML = "<iframe id='prntXrayResult' frameborder=0 width='100%' height='100%' src='print/result.spchem.php?so_no="+so_no+"&code="+code+"&serialno="+serialno+"&sid="+Math.random()+"&sid="+Math.random()+"'></iframe>";
+					$("#report3").html(txtHTML);
+					$("#report3").dialog({title: "Print - SPECIAL CHEMISTRY RESULT", width: 560, height: 620, resizable: true }).dialogExtend({
+						"closable" : true,
+						"maximizable" : true,
+						"minimizable" : true
+					});
+
+
+				 }
+			},
+			{
+				text: "Close",
+				icons: { primary: "ui-icon-closethick" },
+				click: function() { $(this).dialog("close"); }
+			}
+		]
+	});
+}
+
+function validateSPChem(lid,code) {
+	
+	$("#specialChemistryResult").html("<iframe id='frmSpBloodChem' frameborder=0 width='100%' height='100%' src='result.spchem.php?lid="+lid+"'></iframe>");
+	
+	var dis = $("#specialChemistryResult").dialog({
+		title: "Write Result",
+		width: 1200,
+		height: 680,
+		resizeable: false,
+		modal: true,
+		buttons: [
+			{
+				text: "Save Changes & Mark Result as Validated",
+				icons: { primary: "ui-icon-check" },
+				click: function() {
+					var msg = '';
+
+					if(confirm("Are you sure you want save this data?") == true) {
+						var dataString = $('#frmSpBloodChem').contents().find('#frmspchemResult').serialize();
+						dataString = "mod=validateSPChem&" + dataString;
+						$.ajax({
+							type: "POST",
+							url: "src/sjerp.php",
+							data: dataString,
+							success: function() {
+								alert("Result Successfully Marked as Validated!");
+								showValidation();
+								dis.dialog("close");
+							}
+						});
+					}
+				}
+			},
+			{
+				text: "Print Result",
+				icons: { primary: "ui-icon-print" },
+				click: function() {
+					
+					var so_no = $('#frmspchemResultResult').contents().find('#spchem_sono').val();
+					var serialno = $('#frmspchemResultResult').contents().find('#spchem_serialno').val();
+
+					var txtHTML = "<iframe id='prntXrayResult' frameborder=0 width='100%' height='100%' src='print/result.spchem.php?so_no="+so_no+"&serialno="+serialno+"&sid="+Math.random()+"&sid="+Math.random()+"'></iframe>";
+					$("#report3").html(txtHTML);
+					$("#report3").dialog({title: "Print - SPECIAL CHEMISTRY RESULT", width: 560, height: 620, resizable: true }).dialogExtend({
 						"closable" : true,
 						"maximizable" : true,
 						"minimizable" : true

@@ -190,17 +190,6 @@ if(checkTest('L009',$order['serialno']) && $b['rbs'] > 0) {
     ';
 }
 
-if(checkTest('L019',$order['serialno']) && $b['hba1c'] > 0) {
-    $html .= '<tr>
-        <td align="left" valign=top>HBA1C (HEMOGLOBIN A1C)</td>
-        <td align=center style="border-bottom: 1px solid black;vertical-align: top;">'. $b['hba1c'] . '</td>
-        <td align=center>'.$con->checkChemValues($_ihead['age'],$_ihead['gender'],'L019',$b['hba1c']).'</td>
-        <td align=center valign=top>'.$con->getAttribute('L019',$_ihead['age'],$_ihead['gender']).'</td>	
-    </tr>
-    <tr><td colspan=4 height=5>&nbsp;</td></tr>
-    ';
-}
-
 if(checkTest('L026',$order['serialno']) && $b['sodium'] > 0) {
     $html .= '<tr>
         <td align="left" valign=top>SODIUM (Na)</td>
@@ -260,16 +249,6 @@ if(checkTest('L020',$order['serialno']) || $b['creatinine'] > 0 || checkTest('L2
         <td align=center style="border-bottom: 1px solid black;">'. $b['creatinine'] . '</td>
         <td align=center>'.$con->checkChemValues($_ihead['age'],$_ihead['gender'],'L020',$b['creatinine']).'</td>
         <td align=center>'.$con->getAttribute('L020',$_ihead['age'],$_ihead['gender']).'</td>	
-    </tr>
-    <tr><td colspan=4 height=5>&nbsp;</td></tr>';
-}
-
-if(checkTest('L022',$order['serialno']) && $b['hba1c'] > 0) {
-    $html .= '<tr>
-        <td align="left">HbA1c</td>
-        <td align=center style="border-bottom: 1px solid black;">'. $b['hba1c'] . '</td>
-        <td align=center>'.$con->checkChemValues($_ihead['age'],$_ihead['gender'],'L022',trim($b['hba1c'],'>')).'</td>
-        <td align=center>'.$con->getAttribute('L022',$_ihead['age'],$_ihead['gender']).'</td>	
     </tr>
     <tr><td colspan=4 height=5>&nbsp;</td></tr>';
 }
@@ -593,6 +572,15 @@ if(checkTest('L030',$order['serialno'])) {
         </tr>
         <tr><td colspan=4 height=5>&nbsp;</td></tr>';
     
+}
+
+if(checkTest('L024',$order['serialno'])) {
+    $html .= '<tr>
+            <td align="left">HIGH DENSITY LIPOPROTEIN (HDL)</td>
+            <td align=center style="border-bottom: 1px solid black;">'. $b['hdl'] . '</td>
+            <td align=center>'.$con->checkChemValues($_ihead['age'],$_ihead['gender'],'L024',$b['hdl']).'</td>
+            <td align=center>'.$con->getAttribute('L024',$_ihead['age'],$_ihead['gender']).'</td>	
+        </tr>';
 }
 if(checkTest('L203',$order['serialno'])) {
     $html .= '

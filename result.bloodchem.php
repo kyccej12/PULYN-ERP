@@ -659,6 +659,18 @@
                         <td><?php echo $f['vldl']; ?></td>
                         <td><?php echo $o->getAttribute('L081',$a['age'],$a['gender']); ?></td>	
                     </tr>
+                    <?php } if(checkTest('L024',$order['serialno'])) { ?>
+                    <tr>
+                        <td>HIGH DENSITY LIPOPROTEIN (HDL)&nbsp;</td>
+                        <td>
+                            <input type="text" class="noBorders" name="hdl" id="hdl" value="<?php echo number_format($b['hdl'],2); ?>" pattern="^\d*(\.\d{0,2})?$" onchange="javascript: computeLDL();">
+                        </td>
+                        <td><?php echo $o->checkChemValues($a['age'],$a['gender'],'L024',$b['hdl']); ?></td>
+                        <td><?php echo $d['hdl']; ?></td>
+                        <td><?php echo $e['hdl']; ?></td>
+                        <td><?php echo $f['hdl']; ?></td>
+                        <td><?php echo $o->getAttribute('L024',$a['age'],$a['gender']); ?></td>	
+                    </tr>
                     <?php } if(checkTest('L119',$order['serialno'])) { ?>
                     <tr>
                         <td>Ionized Calcium</td>
@@ -670,18 +682,6 @@
                         <td><?php echo $e['ion_calcium']; ?></td>
                         <td><?php echo $f['ion_calcium']; ?></td>
                         <td><?php echo $o->getAttribute('L119',$a['age'],$a['gender']); ?></td>	
-                    </tr>
-                    <?php } if(checkTest('L019',$order['serialno'])) { ?>
-                    <tr>
-                        <td>HBA1C (HEMOGLOBIN A1C)</td>
-                        <td>
-                            <input type="text" class="noBorders" name="hba1c" id="hba1c" value="<?php echo number_format($b['hba1c'],2); ?>" pattern="^\d*(\.\d{0,2})?$">
-                        </td>
-                        <td><?php echo $o->checkChemValues($a['age'],$a['gender'],'L019',$b['hba1c']); ?></td>
-                        <td><?php echo $d['hba1c']; ?></td>
-                        <td><?php echo $e['hba1c']; ?></td>
-                        <td><?php echo $f['hba1c']; ?></td>
-                        <td><?php echo $o->getAttribute('L019',$a['age'],$a['gender']); ?></td>	
                     </tr>
                     <?php } if(checkTest('L092',$order['serialno'])) { ?>
                     <tr>
