@@ -154,12 +154,14 @@ mpdf-->
             <tr>
                 <td class="itemHeader">TEST</td>
                 <td class="itemHeader">RESULT</td>
+                <td class="itemHeader">FLAG</td>
                 <td class="itemHeader">NORMAL VALUES</td>
             </tr>
             <tr>
                 <td class="itemResult">'.$b['attribute'].'</td>
                 <td class="itemResult">'.$b['val'].'</td>
-                <td class="itemResult">'.$limits.'</td>
+                <td align=center class="itemResult">'.$con->checkChemValues($_ihead['age'],$_ihead['gender'],$_ihead['code'],$b['val']).'</td>
+				<td class="itemResult">'.$limits.'</td>
             </tr>
 
     </table>
