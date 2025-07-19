@@ -10,17 +10,17 @@
 	$now = date("m/d/Y h:i a");
 	$co = $con->getArray("select * from companies where company_id = '$_SESSION[company]';");
 
-	$_ihead = $con->getArray("SELECT DATE_FORMAT(result_date,'%m/%d/%Y') AS rdate, b.patient_name, b.patient_address, IF(c.gender='M','Male','Female') AS gender, b.so_date as xorderdate, c.birthdate as xbday, c.gender as xgender, c.birthdate, b.physician, a.serialno, a.procedure, a.created_by, b.trace_no, a.code, a.so_no, a.serialno FROM lab_singleresult a LEFT JOIN so_header b ON a.so_no = b.so_no AND a.branch = b.branch LEFT JOIN patient_info c ON b.patient_id = c.patient_id WHERE a.so_no = '$_REQUEST[so_no]' AND `code` = '$_REQUEST[code]' AND serialno = '$_REQUEST[serialno]' AND a.branch = '$_SESSION[branchid]';");
-    $b = $con->getArray("SELECT attribute, `value` as val, verified, verified_by, created_by, remarks FROM lab_singleresult WHERE so_no = '$_ihead[so_no]' and branch = '1' and code = '$_ihead[code]' and serialno = '$_ihead[serialno]';");	
+	$_ihead = $con->getArray("SELECT DATE_FORMAT(result_date,'%m/%d/%Y') AS rdate, b.patient_name, b.patient_address, IF(c.gender='M','Male','Female') AS gender, b.so_date as xorderdate, c.birthdate as xbday, c.gender as xgender, c.birthdate, b.physician, a.serialno, a.procedure, a.created_by, b.trace_no, a.code, a.so_no, a.serialno, FLOOR(ROUND(DATEDIFF(b.so_date,c.birthdate) / 364.25,2)) AS age FROM lab_singleresult a LEFT JOIN so_header b ON a.so_no = b.so_no AND a.branch = b.branch LEFT JOIN patient_info c ON b.patient_id = c.patient_id WHERE a.so_no = '$_REQUEST[so_no]' AND `code` = '$_REQUEST[code]' AND serialno = '$_REQUEST[serialno]' AND a.branch = '$_SESSION[branchid]';");
+    $b = $con->getArray("SELECT `code`, attribute, `value` as val, verified, verified_by, created_by, remarks FROM lab_singleresult WHERE so_no = '$_ihead[so_no]' and branch = '1' and code = '$_ihead[code]' and serialno = '$_ihead[serialno]';");	
 	$c = $con->getArray("SELECT CONCAT(min_value,' - ',`max_value`,`unit`) as limits FROM lab_testvalues WHERE `code` = '$_ihead[code]';");		
-
 
 	$con->calculateAge2($_ihead['xorderdate'],$_ihead['xbday']);
 
 	switch($_ihead['code']) {
-		case "L019": /* HBa1c */
-			$limits = "4.0 - 5.6% (Normal)<br/>5.7 - 6.4% (Pre-diabetic)<br/>Above 6.5% (Diabetic)";
-		break;
+		// case "L019": /* HBa1c */
+		// 	// $limits = "4.0 - 5.6% (Normal)<br/>5.7 - 6.4% (Pre-diabetic)<br/>Above 6.5% (Diabetic)";
+
+		// break;
 		case "L121": /* eGFR */
 			$limits = "mL/min/1.73m2";
 		break;
@@ -35,6 +35,15 @@
 
 	if($_ihead['code'] = 'L120') {
 		$_head['procedure'] = "TOXICOLOGY";
+	}
+
+	switch($b['code']) {
+		case "L019":
+			$flag = $con->checkChemValues($_ihead['age'],$_ihead['gender'],'L019',$b['val']);
+		break;
+		default:
+			$flag = $con->checkChemValues($_ihead['age'],$_ihead['gender'],$b['code'],$b['val']);
+		break;
 	}
 	
 
@@ -157,14 +166,13 @@ mpdf-->
                 <td class="itemHeader">FLAG</td>
                 <td class="itemHeader">NORMAL VALUES</td>
             </tr>
-            <tr>
+			<tr>
                 <td class="itemResult">'.$b['attribute'].'</td>
                 <td class="itemResult">'.$b['val'].'</td>
-                <td align=center class="itemResult">'.$con->checkChemValues($_ihead['age'],$_ihead['gender'],$_ihead['code'],$b['val']).'</td>
+                <td align=center class="itemResult">'.$flag.'</td>
 				<td class="itemResult">'.$limits.'</td>
             </tr>
-
-    </table>
+	</table>
 	<table width=60% align=center style="margin-top: 5px; font-size: 9pt; font-style: italic;">
         <tr>
             <td align=left width=18%><b>REMARKS :</b></td>

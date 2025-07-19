@@ -3580,6 +3580,7 @@ function writeResult(lid,code) {
 		case "L119":
 		case "L252":
 		case "L255":
+		case "L030":
 			bloodChem(lid,code);
 		break;
 		// case "L019":
@@ -3711,6 +3712,7 @@ function validateResult(lid,code) {
 		case "L119":
 		case "L252":
 		case "L255":
+		case "L030":
 			validateBloodChem(lid,code);
 		break;
 		// case "L019":
@@ -3850,6 +3852,7 @@ function printResult(code,so_no,serialno,lid) {
 			case "L119":
 			case "L252":
 			case "L255":
+			case "L030":
 				var txtHTML = "<iframe id='printResult' frameborder=0 width='100%' height='100%' src='print/result.bloodchem.php?so_no="+so_no+"&code="+code+"&serialno="+serialno+"&sid="+Math.random()+"&sid="+Math.random()+"'></iframe>";
 			break;
 			// case "L019":
