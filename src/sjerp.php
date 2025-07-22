@@ -88,7 +88,7 @@
 		
 		/* Items */
 		case "getIcode":
-			switch($_POST['mid']) { case "1": $main="RMO"; break; case "2": $main="FA"; break; case "3": $main="LAB"; break; case "4": $main="MS"; break; case "5": $main="DS"; break; case "6": $main="PHA"; case "7": $main="DLS"; break;}
+			switch($_POST['mid']) { case "1": $main="RMO"; break; case "2": $main="FA"; break; case "3": $main="LAB"; break; case "4": $main="MS"; break; case "5": $main="DS"; break; case "6": $main="PHA"; break; case "7": $main="DLS"; break;}
 			
 			if($_POST['sgroup'] > 0) {
 				list($scode) = $con->getArray("select `code` from options_sgroup where sid = '$_POST[sgroup]';");
