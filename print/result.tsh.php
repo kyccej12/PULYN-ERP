@@ -159,7 +159,7 @@ mpdf-->
 			<tr>
 				<td align="left" valign=top>TSH (THYROID STIMULATING HORMONES)</td>
 				<td align=center style="border-bottom: 1px solid black;vertical-align: top;">'. $b['tsh'] . '</td>
-				<td align=center>'.$con->checkChemValues($_ihead['age'],$_ihead['gender'],'L031',$b['tsh']).'</td>
+				<td align=center>'.$con->checkChemValues($_ihead['age'],$_ihead['gender'],'L031',trim($b['tsh'],'<')).'</td>
 				<td align=center valign=top>'.$con->getAttribute('L031',$_ihead['age'],$_ihead['gender']).'</td>	
 			</tr>
 			<tr><td height=20></td></tr>

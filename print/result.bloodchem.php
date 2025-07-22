@@ -513,7 +513,7 @@ if(checkTest('L031',$order['serialno'])) {
     $html .= '<tr>
         <td align="left">TSH (THYROID STIMULATING HORMONES)&nbsp;:</td>
         <td align=center style="border-bottom: 1px solid black;">'. $b['tsh'] . '</td>
-        <td align=center>'.$con->checkChemValues($_ihead['age'],$_ihead['gender'],'L031',$b['tsh']).'</td>
+        <td align=center>'.$con->checkChemValues($_ihead['age'],$_ihead['gender'],'L031',trim($b['tsh'],'<')).'</td>
         <td align=center>'.$con->getAttribute('L031',$_ihead['age'],$_ihead['gender']).'</td>	
     </tr>
     <tr><td colspan=4 height=5>&nbsp;</td></tr>';

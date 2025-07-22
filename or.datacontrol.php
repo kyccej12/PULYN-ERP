@@ -119,9 +119,10 @@
 		break;
 
 		case "browseSO":
-			list($cutoff) = $con->getArray("SELECT DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 2 DAY),'%Y-%m-%d')");
+			// list($cutoff) = $con->getArray("SELECT DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 2 DAY),'%Y-%m-%d')");
 
-            $q = "SELECT so_no, LPAD(so_no,6,0) AS sono, DATE_FORMAT(so_date,'%m/%d/%Y') AS sdate, a.patient_name, a.customer_code, if(a.customer_code=0,'Charge to Patient',customer_name) as chargeto, amount, a.remarks FROM so_header a WHERE branch = '$bid' AND billed != 'Y' AND so_no NOT IN (SELECT so_no FROM or_details WHERE doc_no = '$_POST[doc_no]' AND branch = '$bid') AND `status` = 'Finalized' AND cstatus IN ('1') and so_date >= '$cutoff' ORDER BY so_date DESC, soa_no DESC;";
+            // $q = "SELECT so_no, LPAD(so_no,6,0) AS sono, DATE_FORMAT(so_date,'%m/%d/%Y') AS sdate, a.patient_name, a.customer_code, if(a.customer_code=0,'Charge to Patient',customer_name) as chargeto, amount, a.remarks FROM so_header a WHERE branch = '$bid' AND billed != 'Y' AND so_no NOT IN (SELECT so_no FROM or_details WHERE doc_no = '$_POST[doc_no]' AND branch = '$bid') AND `status` = 'Finalized' AND cstatus IN ('1') and so_date >= '$cutoff' ORDER BY so_date DESC, soa_no DESC;";
+            $q = "SELECT so_no, LPAD(so_no,6,0) AS sono, DATE_FORMAT(so_date,'%m/%d/%Y') AS sdate, a.patient_name, a.customer_code, if(a.customer_code=0,'Charge to Patient',customer_name) as chargeto, amount, a.remarks FROM so_header a WHERE branch = '$bid' AND billed != 'Y' AND so_no NOT IN (SELECT so_no FROM or_details WHERE doc_no = '$_POST[doc_no]' AND branch = '$bid') AND `status` = 'Finalized' AND cstatus IN ('1') ORDER BY so_date DESC, soa_no DESC;";
             
             if($con->countRows($q) > 0) {
                 echo "
